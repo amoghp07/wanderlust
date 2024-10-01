@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: db
+    image: mongo:latest
+    volumes:
+      - ./backend/data:/data
+    ports:
+      - 27017:27017
+    networks:
+      - devops
+
+  backend:
+    container_name: backend
+    image: multistage-backend
+    env_file:
+      - ./backend/.env.sample
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+    networks:
+      - devops
+
+  frontend:
+    container_name: frontend
+    image: multistage-frontend
+    env_file:
+      - ./backend/.env.sample
+    ports:
+      - 5173:5173
+    networks:
+      - devops
+
+volumes:
+  data:
+
+networks:
+  devops:

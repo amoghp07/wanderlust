@@ -33,6 +33,16 @@ services:
     networks:
       - devops
 
+  cache:
+    container_name: cache
+    image: redis:7.4.0-alpine
+    networks:
+      - devops
+    ports:
+      - 6379-6379
+    depends_on:
+      - db
+
 volumes:
   data:
 
